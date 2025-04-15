@@ -135,7 +135,7 @@
                 android:id="@+id/scheduledTransactionText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Scheduled Transaction"
+                android:text="Add Transaction"
                 android:textSize="16sp"
                 android:padding="16dp"
                 android:drawableTint="?attr/colorSecondary"
