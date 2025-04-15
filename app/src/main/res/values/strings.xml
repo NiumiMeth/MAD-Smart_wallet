@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">MAD Lab_Exam 3</string>
+    <string name="onboarding_title">Gain total control of your money</string>
+    <string name="onboarding_subtitle">Become your own money manager and make every cent count</string>
+    <string name="continue_button">Continue</string>
+    <string name="onboarding_image_desc">Coins and plant image for onboarding screen</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+
+
+    <!-- Category -->
+    <string name="category_title">Expense Categories</string>
+    <string name="food_category">Food</string>
+    <string name="transport_category">Transport</string>
+    <string name="bills_category">Bills</string>
+    <string name="entertainment_category">Entertainment</string>
+
+
+    <!-- Button Text -->
+    <string name="add_expense">Add Expense</string>
+    <string name="wallets">Wallets</string>
+    <string name="more">More</string>
+
+    <!-- home -->
+    <string name="greeting_text">Hi Niumi!</string>
+    <string name="total_expenses">Total Expenses</string>
+    <string name="my_goals">My Goals</string>
+    <string name="expense_categories">Expense Categories</string>
+    <string name="shopping_category">Shopping - LKR 9,400.00</string>
+    <string name="petrol_category">Petrol - LKR 5,000.00</string>
+    <string name="rent_payment">Rent - LKR 12,000.00</string>
+    <string name="electricity_payment">Electricity - LKR 8,500.00</string>
+    <string name="medical_bills_payment">Medical Bills - LKR 5,200.00</string>
+
+
+</resources>
