@@ -1,4 +1,4 @@
-package com.example.madlab_exam3;
+package com.example.madlab_exam3.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.madlab_exam3.R;
 import com.example.madlab_exam3.models.Expense;
 
 import java.util.List;

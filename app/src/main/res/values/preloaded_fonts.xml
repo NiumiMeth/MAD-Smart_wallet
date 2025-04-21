@@ -3,6 +3,7 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/acme</item>
         <item>@font/afacad</item>
+        <item>@font/akaya_kanadaka</item>
         <item>@font/roboto_flex</item>
         <item>@font/roboto_thin</item>
     </array>

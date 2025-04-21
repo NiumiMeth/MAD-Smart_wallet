@@ -19,27 +19,40 @@ class more : AppCompatActivity() {
         val addtran = findViewById<TextView>(R.id.scheduledTransactionText)
         val category = findViewById<TextView>(R.id.categoriesText)
         val profile = findViewById<TextView>(R.id.userName)
+        val budget = findViewById<TextView>(R.id.setBudget)
         val profileimage = findViewById<ImageView>(R.id.userProfileImage)
 
+        // Only one click listener for each text view
+
+        // Category Click Listener
         category.setOnClickListener {
             val intent = Intent(this@more, ExpenseHistoryActivity::class.java)
             startActivity(intent)
         }
-        category.setOnClickListener {
+
+        // Add Transaction Click Listener
+        addtran.setOnClickListener {
             val intent = Intent(this@more, Add_Expense::class.java)
             startActivity(intent)
         }
+
+        // Profile Click Listener
         profile.setOnClickListener {
             val intent = Intent(this@more, profile::class.java)
             startActivity(intent)
         }
+
+        // Profile Image Click Listener
         profileimage.setOnClickListener {
             val intent = Intent(this@more, profile::class.java)
             startActivity(intent)
         }
 
-
-
+        // Set Budget Click Listener
+        budget.setOnClickListener {
+            val intent = Intent(this@more, set_budget::class.java)  // Navigate to set_budget page
+            startActivity(intent)
+        }
 
         // Bottom Navigation Setup
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
@@ -49,17 +62,16 @@ class more : AppCompatActivity() {
             when (item.itemId) {
                 R.id.home -> {
                     startActivity(Intent(this@more, Home::class.java))  // Assuming Home is your "More" page
-                    finish()// Handle Wallets page, e.g., navigate to Wallets activity/fragment
+                    finish() // Handle Wallets page, e.g., navigate to Wallets activity/fragment
                     true
                 }
                 R.id.addExpense -> {
-                    // Open Add Expense Activity
-                    startActivity(Intent(this@more, Add_Expense::class.java))
+                    startActivity(Intent(this@more, Add_Expense::class.java)) // Open Add Expense Activity
                     true
                 }
                 R.id.more -> {
                     // Open the "More" page (this is likely the current page)
-                     // Optionally, finish the current activity to prevent returning back to it
+                    // Optionally, finish the current activity to prevent returning back to it
                     true
                 }
                 else -> false

@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.madlab_exam3.models.Expense
-import com.example.madlab_exam3.ExpenseAdapter
+import com.example.madlab_exam3.adapters.ExpenseAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ExpenseHistoryActivity : AppCompatActivity() {

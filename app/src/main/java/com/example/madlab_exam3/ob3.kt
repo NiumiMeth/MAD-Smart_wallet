@@ -8,24 +8,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class ob1 : AppCompatActivity() {
+class ob3 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_ob1)
+        setContentView(R.layout.activity_ob3)
 
-        val ob2button = findViewById<Button>(R.id.continueButton)
+        val home = findViewById<Button>(R.id.continueButton)
 //        val homebutton = findViewById<Button>(R.id.button3)
 
-        ob2button.setOnClickListener {
-            val intent = Intent(this@ob1, ob2::class.java)
+        home.setOnClickListener {
+            val intent = Intent(this@ob3, Home::class.java)
             startActivity(intent)
         }
-
-//        button3.setOnClickListener {
-//            val intent = Intent(this@ob1, ob2::class.java)
-//            startActivity(intent)
-//        }
 
     }
 }

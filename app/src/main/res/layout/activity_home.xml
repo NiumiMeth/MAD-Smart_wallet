@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,8 +10,10 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,6 +21,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <!-- Header Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -29,6 +33,7 @@
                     android:id="@+id/profileIcon"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:background="@android:color/transparent"
                     android:src="@drawable/sample_profile"
                     android:contentDescription="Profile Icon" />
 
@@ -45,15 +50,16 @@
                     android:textStyle="bold" />
 
                 <ImageView
+                    android:id="@+id/notificationIcon"
                     android:layout_width="33dp"
                     android:layout_height="match_parent"
                     android:contentDescription="Notifications"
                     android:src="@drawable/notification" />
-
             </LinearLayout>
 
+            <!-- Budget Progress Card -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/totalExpensesSection"
+                android:id="@+id/budgetProgressCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -67,80 +73,71 @@
                     android:padding="16dp">
 
                     <TextView
-                        android:id="@+id/totalLabel"
+                        android:id="@+id/budgetLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawablePadding="8dp"
-                        android:gravity="center_vertical"
-                        android:text="Total Expenses"
+                        android:text="Budget Progress"
                         android:textColor="@color/cardBackgroundColor"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-
                     <ImageView
-                        android:id="@+id/imageView3"
+                        android:id="@+id/addBudgetButton"
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:layout_marginBottom="20dp"
-                        app:layout_constraintBottom_toTopOf="@+id/progressBar"
+                        android:src="@android:drawable/ic_input_add"
+                        app:layout_constraintBottom_toTopOf="@+id/budgetProgressBar"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toEndOf="@+id/totalLabel"
-                        app:srcCompat="@android:drawable/ic_input_add" />
+                        app:layout_constraintStart_toEndOf="@+id/budgetLabel" />
 
                     <ProgressBar
-                        android:id="@+id/progressBar"
+                        android:id="@+id/budgetProgressBar"
                         style="@android:style/Widget.ProgressBar.Horizontal"
                         android:layout_width="0dp"
                         android:layout_height="20dp"
                         android:layout_marginTop="24dp"
                         android:backgroundTint="@color/progress_background"
                         android:max="100"
-                        android:progress="70"
+                        android:progress="0"
                         android:progressTint="@color/progress"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/totalLabel" />
+                        app:layout_constraintTop_toBottomOf="@id/budgetLabel" />
 
                     <TextView
-                        android:id="@+id/totalAmount"
+                        android:id="@+id/totalSpentText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:drawablePadding="8dp"
-                        android:gravity="center_vertical"
-                        android:text="LKR 20,000"
+                        android:text="LKR 0.00"
                         android:textColor="@color/cardBackgroundColor"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/progressBar" />
+                        app:layout_constraintTop_toBottomOf="@id/budgetProgressBar" />
 
                     <TextView
-                        android:id="@+id/remaining"
+                        android:id="@+id/remainingBudgetText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawablePadding="8dp"
-                        android:gravity="center_vertical"
-                        android:text="LKR 8,000 Remaining"
+                        android:text="Set budget to track progress"
                         android:textColor="@color/cardBackgroundColor"
                         android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/totalAmount" />
-
+                        app:layout_constraintTop_toTopOf="@id/totalSpentText" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Goals Section -->
             <TextView
                 android:id="@+id/goalsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:drawablePadding="8dp"
-                android:gravity="center_vertical"
                 android:fontFamily="@font/afacad"
                 android:text="My Goals"
                 android:textColor="@color/primaryColor"
@@ -192,13 +189,12 @@
                 </LinearLayout>
             </HorizontalScrollView>
 
+            <!-- Expense Categories Section -->
             <TextView
                 android:id="@+id/categoriesTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:drawablePadding="8dp"
-                android:gravity="center_vertical"
                 android:fontFamily="@font/afacad"
                 android:text="Expense Categories"
                 android:textColor="@color/primaryColor"
@@ -228,7 +224,7 @@
                         android:drawablePadding="16dp"
                         android:gravity="center_vertical"
                         android:text="Shopping - LKR 9,400.00"
-                        android:textColor="@color/primaryColor"
+                        android:textColor="@color/homeText"
                         android:textSize="16sp" />
                 </androidx.cardview.widget.CardView>
 
@@ -248,7 +244,7 @@
                         android:drawablePadding="16dp"
                         android:gravity="center_vertical"
                         android:text="Food - LKR 2,100.00"
-                        android:textColor="@color/primaryColor"
+                        android:textColor="@color/homeText"
                         android:textSize="16sp" />
                 </androidx.cardview.widget.CardView>
 
@@ -267,18 +263,17 @@
                         android:drawablePadding="16dp"
                         android:gravity="center_vertical"
                         android:text="Petrol - LKR 5,000.00"
-                        android:textColor="@color/primaryColor"
+                        android:textColor="@color/homeText"
                         android:textSize="16sp" />
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
 
+            <!-- Upcoming Payments Section -->
             <TextView
                 android:id="@+id/plannedPaymentsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:drawablePadding="8dp"
-                android:gravity="center_vertical"
                 android:fontFamily="@font/afacad"
                 android:text="Upcoming Payments"
                 android:textColor="@color/primaryColor"
@@ -290,6 +285,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
@@ -308,7 +304,7 @@
                         android:drawablePadding="16dp"
                         android:gravity="center_vertical"
                         android:text="Rent - LKR 12,000.00"
-                        android:textColor="@color/primaryColor"
+                        android:textColor="@color/homeText"
                         android:textSize="16sp" />
                 </androidx.cardview.widget.CardView>
 
@@ -328,7 +324,7 @@
                         android:drawablePadding="16dp"
                         android:gravity="center_vertical"
                         android:text="Electricity - LKR 8,500.00"
-                        android:textColor="@color/primaryColor"
+                        android:textColor="@color/homeText"
                         android:textSize="16sp" />
                 </androidx.cardview.widget.CardView>
 
@@ -347,7 +343,7 @@
                         android:drawablePadding="16dp"
                         android:gravity="center_vertical"
                         android:text="Medical Bills - LKR 5,200.00"
-                        android:textColor="@color/primaryColor"
+                        android:textColor="@color/homeText"
                         android:textSize="16sp" />
                 </androidx.cardview.widget.CardView>
             </LinearLayout>

@@ -4,36 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
     tools:context=".more">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="28dp"
         android:elevation="4dp"
         android:theme="?attr/actionBarTheme"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="start"
             android:text="←"
-            android:textSize="24sp"
             android:textColor="@color/primaryColor"
-            android:layout_gravity="start" />
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/accountTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="Account"
-            android:textSize="22sp"
-            android:textStyle="bold"
             android:textColor="@color/primaryColor"
-            android:layout_gravity="center" />
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -164,10 +167,10 @@
                 android:background="?attr/dividerHorizontal" />
 
             <TextView
-                android:id="@+id/addNotesText"
+                android:id="@+id/setBudget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add Notes"
+                android:text="Set Budget"
                 android:textSize="16sp"
                 android:padding="16dp"
                 android:drawableTint="?attr/colorSecondary"

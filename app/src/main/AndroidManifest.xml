@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -13,11 +12,15 @@
         android:theme="@style/Theme.MADLab_Exam3"
         tools:targetApi="31">
         <activity
-            android:name=".Allhistory"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".AllHistory"
+            android:name=".ob2"
             android:exported="false" />
+        <activity
+            android:name=".ob3"
+            android:exported="false" />
+
         <activity
             android:name=".profile"
             android:exported="false" />
@@ -26,13 +29,7 @@
             android:exported="false" />
         <activity
             android:name=".Home"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".set_budget"
             android:exported="false" />
@@ -49,11 +46,13 @@
             android:name=".category"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-        <activity
             android:name=".ob1"
-            android:exported="true" />
+            android:exported="true"> <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+        <activity android:name=".Transactionhistory" />
 
         <meta-data
             android:name="preloaded_fonts"
