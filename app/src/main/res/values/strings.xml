@@ -229,5 +229,13 @@
     <string name="dark_mode">Dark</string>
     <string name="system_default">System Default</string>
     <string name="currency_changed">Currency changed to %1$s</string>
+
+        <!-- For budget amount display -->
+        <string name="budget_amount_home1">Budget: %1$s%2$s</string>
+
+        <!-- For budget warning message -->
+        <string name="budget_warning_details2">Warning! Budget: %1$s%2$s, Spent: %3$s, Remaining: %4$s</string>
+
+
 </resources>
 

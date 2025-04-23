@@ -119,9 +119,8 @@ class Transactionhistory : AppCompatActivity() {
         val selectedType = typeFilterSpinner.selectedItem?.toString() ?: "All Types"
 
         val filteredList = transactionList.filter { transaction ->
-            val categoryMatch = (selectedCategory == "All Categories" || transaction.category == selectedCategory)
-            val typeMatch = (selectedType == "All Types" || transaction.type == selectedType)
-            categoryMatch && typeMatch
+            (selectedCategory == "All Categories" || transaction.category == selectedCategory) &&
+                    (selectedType == "All Types" || transaction.type == selectedType)
         }
 
         adapter.updateData(filteredList)  // Update the adapter with filtered data

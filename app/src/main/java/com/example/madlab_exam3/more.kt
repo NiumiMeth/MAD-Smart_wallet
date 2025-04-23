@@ -2,12 +2,9 @@ package com.example.madlab_exam3
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.animation.AnimationUtils
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -16,11 +13,7 @@ import com.example.madlab_exam3.models.Transaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.InputStreamReader
+import java.io.*
 import java.util.Locale
 
 class more : AppCompatActivity() {
@@ -30,7 +23,7 @@ class more : AppCompatActivity() {
     private val transactionKey = "expense_transactions"
     private lateinit var backupDataText: TextView
     private lateinit var restoreDataText: TextView
-    private lateinit var mainCurrencyText: TextView // Corrected declaration
+    private lateinit var mainCurrencyText: TextView
     private lateinit var themeSelectorText: TextView
     private lateinit var backButton: TextView
     private lateinit var accountTitle: TextView
@@ -115,15 +108,13 @@ class more : AppCompatActivity() {
             restoreTransactionsInternal()
         }
 
-        mainCurrencyText.setOnClickListener { // Correct click listener
+        mainCurrencyText.setOnClickListener {
             showCurrencySelectorDialog()
         }
 
         themeSelectorText.setOnClickListener {
             showThemeSelectorDialog()
         }
-
-
 
         // Bottom Navigation Setup
         bottomNavView.selectedItemId = R.id.more

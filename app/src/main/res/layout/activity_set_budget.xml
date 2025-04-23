@@ -40,6 +40,16 @@
             android:textColor="#0B0B0B"
             android:textColorHint="#B3B3B3" />
 
+        <!-- Add the mainCurrencyText TextView here -->
+        <TextView
+            android:id="@+id/mainCurrencyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Currency: LKR"
+        android:textSize="18sp"
+        android:textColor="@color/primaryColor" />
+
         <Button
             android:id="@+id/setBudgetButton"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -122,7 +132,8 @@
             android:textColor="@color/cancel"
             android:textSize="20sp"
             android:textStyle="italic"
-            android:visibility="gone" /> </LinearLayout>
+            android:visibility="gone" />
+    </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
