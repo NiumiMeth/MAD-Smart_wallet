@@ -8,6 +8,7 @@
     <dimen name="vertical_progress_text_margin_start">8dp</dimen>
     <dimen name="vertical_progress_text_spacing">4dp</dimen>
     <dimen name="vertical_progress_bar_spacing">16dp</dimen>
-
+    <dimen name="gauge_stroke_width">10dp</dimen>
+    <dimen name="gauge_text_size">24sp</dimen>
 
 </resources>

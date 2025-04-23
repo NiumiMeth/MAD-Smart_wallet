@@ -1,6 +1,5 @@
 package com.example.madlab_exam3
 
-import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
@@ -51,8 +50,6 @@ class set_budget : AppCompatActivity() {
 
         // Load existing budget and update UI
         loadBudgetAndUpdateUI()
-
-        // Initially hide the progress group (alpha is 0, scale is 0.8)
 
         // Button Click
         setBudgetButton.setOnClickListener {
@@ -146,10 +143,20 @@ class set_budget : AppCompatActivity() {
         spentOfLimitText.text = "$${"%.2f".format(totalSpent)} / $${"%.2f".format(budget)}"
         remainingBudgetText.text = "Remaining: $${"%.2f".format(budget - totalSpent)}"
 
+        val warningMessage = if (progressPercent >= 80) {
+            "Warning: You have used 80% or more of your budget!"
+        } else {
+            ""
+        }
+
+        // Broadcast Intent with warning message
+        val intent = Intent("BUDGET_WARNING")
+        intent.putExtra("warningMessage", warningMessage)
+        sendBroadcast(intent)
+
         if (progressPercent >= 80) {
             budgetWarningTextView.text = "Warning: You have used 80% or more of your budget!"
             budgetWarningTextView.visibility = View.VISIBLE
-            // You can also change the color of the progress bar or text here if you want
             circularProgressBar.setIndicatorColor(ContextCompat.getColor(this, android.R.color.holo_red_dark))
             progressPercentageText.setTextColor(ContextCompat.getColor(this, R.color.transportation_color))
             spentOfLimitText.setTextColor(ContextCompat.getColor(this, R.color.expencessection))
@@ -157,7 +164,6 @@ class set_budget : AppCompatActivity() {
         } else {
             budgetWarningTextView.text = ""
             budgetWarningTextView.visibility = View.GONE
-            // Reset the color if the usage is below 80%
             circularProgressBar.setIndicatorColor(ContextCompat.getColor(this, R.color.piechart))
             progressPercentageText.setTextColor(ContextCompat.getColor(this, R.color.transportation_color))
             spentOfLimitText.setTextColor(ContextCompat.getColor(this, R.color.expencessection))

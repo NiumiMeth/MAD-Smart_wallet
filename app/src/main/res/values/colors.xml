@@ -21,4 +21,8 @@
     <color name="shopping_color">#9C27B0</color>
     <color name="entertainment_color">#FF5722</color>
     <color name="accentColor">#FF5722</color>
+    <color name="notification_text">#A61809</color>
+    <color name="notification_background">#79F67E</color>
+
+
 </resources>
