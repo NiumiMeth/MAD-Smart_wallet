@@ -119,17 +119,18 @@ class Transactionhistory : AppCompatActivity() {
         val selectedType = typeFilterSpinner.selectedItem?.toString() ?: "All Types"
 
         val filteredList = transactionList.filter { transaction ->
-            (selectedCategory == "All Categories" || transaction.category == selectedCategory) &&
-                    (selectedType == "All Types" || transaction.type == selectedType)
+            val categoryMatch = (selectedCategory == "All Categories" || transaction.category == selectedCategory)
+            val typeMatch = (selectedType == "All Types" || transaction.type == selectedType)
+            categoryMatch && typeMatch
         }
 
         adapter.updateData(filteredList)  // Update the adapter with filtered data
     }
 
-    // Handle editing a transaction (open Add_Expense activity with the transaction data)
+    // Handle editing a transaction (open EditTransactionActivity with the transaction data)
     fun onEditTransaction(position: Int) {
         val transaction = transactionList[position]
-        val intent = Intent(this, Add_Expense::class.java)
+        val intent = Intent(this, EditTransactionActivity::class.java)
         intent.putExtra("transaction_to_edit", transaction)  // Pass the transaction to Edit
         startActivityForResult(intent, REQUEST_CODE_EDIT_TRANSACTION)  // Use the request code here
     }
@@ -160,16 +161,19 @@ class Transactionhistory : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQUEST_CODE_EDIT_TRANSACTION && resultCode == RESULT_OK) {
-            val updatedTransaction = data?.getParcelableExtra<Transaction>("new_transaction")
+            val updatedTransaction = data?.getParcelableExtra<Transaction>("edited_transaction") // Changed key here
             updatedTransaction?.let {
                 // Find the index of the edited transaction and update it
-                val position = transactionList.indexOfFirst { it.id == it.id }
+                val position = transactionList.indexOfFirst { it.id == updatedTransaction.id } // Use the ID to find the correct item
                 if (position != -1) {
                     transactionList[position] = it
                     adapter.notifyItemChanged(position)
+                    // Save updated transactions in SharedPreferences
+                    saveTransactions(transactionList)
+                    Toast.makeText(this, "Transaction updated", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Error updating transaction", Toast.LENGTH_SHORT).show()
                 }
-                // Save updated transactions in SharedPreferences
-                saveTransactions(transactionList)
             }
         }
     }
