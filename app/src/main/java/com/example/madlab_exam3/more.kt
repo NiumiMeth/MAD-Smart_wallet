@@ -3,6 +3,7 @@ package com.example.madlab_exam3
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
@@ -157,6 +158,7 @@ class more : AppCompatActivity() {
         otherOptionsCard.startAnimation(fadeIn.apply { startOffset = 400 })
         bottomNavView.startAnimation(slideInTop.apply { startOffset = 500 })
     }
+
 
     private fun updateCurrencyText() {
         mainCurrencyText.text = getString(R.string.currency_setting, currentCurrency)

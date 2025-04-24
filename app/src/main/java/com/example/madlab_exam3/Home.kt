@@ -45,6 +45,7 @@ class Home : AppCompatActivity() {
     private lateinit var history: TextView
     private lateinit var transactionHistoryRecyclerView: RecyclerView
     private lateinit var transactionAdapter: TransactionAdapter
+    private lateinit var profileicon: ImageView
 
     private var currentCurrency: String = "LKR"  // Store current currency
 
@@ -77,6 +78,7 @@ class Home : AppCompatActivity() {
 
         // Initialize Views
         greetingText = findViewById(R.id.greetingText)
+        profileicon = findViewById(R.id.profileIcon)
         notificationTextView = findViewById(R.id.notificationTextView)
         budgetProgressBar = findViewById(R.id.budgetProgressBar)
         budgetPercentageTextView = findViewById(R.id.budgetPercentageText)
@@ -96,7 +98,12 @@ class Home : AppCompatActivity() {
 
         // Navigation Listeners
         categoriesTitleTextView.setOnClickListener {
-            val intent = Intent(this@Home, ExpenseHistoryActivity::class.java)
+            val intent = Intent(this@Home, Transactionhistory::class.java)
+            startActivity(intent)
+        }
+
+        profileicon.setOnClickListener {
+            val intent = Intent(this@Home, profile::class.java)
             startActivity(intent)
         }
 

@@ -1,5 +1,6 @@
 package com.example.madlab_exam3
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,15 +13,37 @@ class CategorySpending : AppCompatActivity() {
 
     private lateinit var categorySpendingRecyclerView: RecyclerView
     private lateinit var categorySpendingAdapter: CategorySpendingAdapter
+    private lateinit var sharedPreferences: SharedPreferences
+    private var currentCurrency: String = "LKR"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_category) // Using the dedicated layout
+        setContentView(R.layout.activity_category)
 
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("MyFinanceApp", MODE_PRIVATE)
+        currentCurrency = sharedPreferences.getString("currency", "LKR") ?: "LKR"
+
+        // Initialize RecyclerView
         categorySpendingRecyclerView = findViewById(R.id.categorySpendingRecyclerView)
         categorySpendingRecyclerView.layoutManager = LinearLayoutManager(this)
 
+        // Load initial data
         loadCategorySpendingData()
+
+        // Register SharedPreferences listener for currency changes
+        sharedPreferences.registerOnSharedPreferenceChangeListener { _, key ->
+            if (key == "currency") {
+                currentCurrency = sharedPreferences.getString("currency", "LKR") ?: "LKR"
+                loadCategorySpendingData()
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        // Unregister listener to prevent memory leaks
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener { _, _ -> }
+        super.onDestroy()
     }
 
     private fun loadCategorySpendingData() {
@@ -31,14 +54,19 @@ class CategorySpending : AppCompatActivity() {
 
         for ((category, expenses) in expensesByCategory) {
             val totalSpent = expenses.sumOf { it.amount }
-            categorySpendingItems.add(CategoryItem(category, totalSpent))
+            categorySpendingItems.add(CategoryItem(categoryName = category, totalSpent = totalSpent))
         }
 
-        categorySpendingAdapter = CategorySpendingAdapter(categorySpendingItems)
-        categorySpendingRecyclerView.adapter = categorySpendingAdapter
+        if (::categorySpendingAdapter.isInitialized) {
+            // Update existing adapter
+            categorySpendingAdapter.updateData(categorySpendingItems, currentCurrency)
+        } else {
+            // Initialize adapter
+            categorySpendingAdapter = CategorySpendingAdapter(categorySpendingItems, currentCurrency)
+            categorySpendingRecyclerView.adapter = categorySpendingAdapter
+        }
     }
 
-    // Assuming your expense data is stored in SharedPreferences as a JSON string
     private fun getAllExpenses(): List<ExpenseTransaction> {
         val sharedPreferences = getSharedPreferences("MyFinanceApp", MODE_PRIVATE)
         val gson = Gson()
@@ -53,5 +81,4 @@ class CategorySpending : AppCompatActivity() {
     }
 }
 
-// Assuming this is your Expense data model
 data class ExpenseTransaction(val category: String, val amount: Double, /* other properties */)

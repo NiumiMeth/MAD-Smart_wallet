@@ -31,7 +31,7 @@
     <!-- home -->
     <string name="greeting_text">Hi Niumi!</string>
     <string name="total_expenses">Total Expenses</string>
-    <string name="my_goals">My Goals</string>
+    <string name="my_goals">Goals</string>
     <string name="expense_categories">Expense Categories</string>
     <string name="shopping_category">Shopping - LKR 9,400.00</string>
     <string name="petrol_category">Petrol - LKR 5,000.00</string>

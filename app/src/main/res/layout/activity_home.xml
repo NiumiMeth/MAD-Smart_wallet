@@ -33,7 +33,7 @@
                     android:layout_height="48dp"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/profile_icon"
-                    android:src="@drawable/sample_profile" />
+                    android:src="@drawable/pp" />
 
                 <TextView
                     android:id="@+id/greetingText"
@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                app:cardBackgroundColor="@color/expencessection"
+                app:cardBackgroundColor="#82A651"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="8dp">
 
@@ -72,6 +72,7 @@
                     android:padding="16dp">
 
                     <TextView
+
                         android:id="@+id/budgetLabel"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -154,8 +155,8 @@
                 android:layout_marginTop="32dp"
                 android:fontFamily="@font/afacad"
                 android:text="@string/my_goals"
-                android:textColor="@color/primaryColor"
-                android:textSize="20sp"
+                android:textColor="#575757"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <HorizontalScrollView
@@ -208,9 +209,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:fontFamily="@font/afacad"
-                android:text="@string/expense_categories"
-                android:textColor="@color/primaryColor"
-                android:textSize="20sp"
+                android:text="Transactions"
+                android:textColor="#545454"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView

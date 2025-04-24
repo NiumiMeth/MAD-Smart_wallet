@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Account"
-            android:textColor="@color/primaryColor"
+            android:textColor="@color/secondaryColor"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:text="Niumi Methma"
                     android:textSize="18sp"
-                    android:textColor="?attr/colorPrimary"
+                    android:textColor="@color/primaryColor"
                     android:textStyle="bold" />
 
                 <TextView
@@ -207,7 +207,7 @@
                 android:text="Backup &amp; Restore"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="?attr/colorPrimary" />
+                android:textColor="@color/primaryColor" />
 
             <View
                 android:layout_width="match_parent"

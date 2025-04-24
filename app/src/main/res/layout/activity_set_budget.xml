@@ -89,7 +89,7 @@
             app:indicatorColor="@color/piechart"
             app:indicatorSize="250dp"
             app:trackColor="@android:color/darker_gray"
-            app:trackThickness="30dp" />
+            app:trackThickness="35dp" />
 
         <TextView
             android:id="@+id/progressPercentageText"
@@ -97,7 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="0%"
-            android:textSize="24sp"
+            android:textSize="32sp"
             android:textStyle="bold"
             android:textColor="@color/transportation_color" />
 
@@ -106,20 +106,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:textStyle="bold"
+            android:fontFamily="monospace"
             android:text="$0.00 / $0.00"
-            android:textColor="#009688"
-            android:textSize="22sp" />
+            android:textColor="#313131"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/remainingBudgetText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textStyle="bold"
+            android:fontFamily="monospace"
             android:text="Remaining: $0.00"
-            android:textColor="#009688"
-            android:textSize="22sp" />
+            android:textColor="#357638"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/budgetWarningTextView"

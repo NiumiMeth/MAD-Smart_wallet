@@ -10,7 +10,7 @@
         android:id="@+id/categorySpendingTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="34dp"
         android:text="Spending by Category"
         android:textSize="24sp"
         android:textStyle="bold"

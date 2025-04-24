@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
     tools:context=".profile">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
+        android:layout_marginTop="34dp"
         android:layout_height="?attr/actionBarSize"
         android:elevation="4dp"
         android:theme="?attr/actionBarTheme"
@@ -21,9 +23,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Profile"
-            android:textSize="22sp"
+            android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="@color/primaryColor"
+            android:textColor="@color/secondaryColor"
             android:layout_gravity="center" />
 
         <TextView
@@ -73,7 +75,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_marginTop="8dp"
-                android:textColor="?attr/colorPrimary" />
+                android:textColor="@color/primaryColor" />
 
             <TextView
                 android:id="@+id/userEmail"
@@ -106,13 +108,14 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/more1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:text="Account Settings"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="?attr/colorPrimary" />
+                android:textColor="@color/primaryColor" />
 
             <View
                 android:layout_width="match_parent"

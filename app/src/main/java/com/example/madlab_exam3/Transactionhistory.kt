@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.madlab_exam3.adapters.Transe_history_Adaptor
 import com.example.madlab_exam3.models.Transaction
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -33,6 +34,27 @@ class Transactionhistory : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transactionhistory)
+
+        // Bottom Navigation Setup
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
+
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    startActivity(Intent(this@Transactionhistory, Home::class.java))
+                    true
+                }
+                R.id.addExpense -> {
+                    startActivity(Intent(this@Transactionhistory, Add_Expense::class.java))
+                    true
+                }
+                R.id.more -> {
+                    startActivity(Intent(this@Transactionhistory, more::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
 
         // Initialize views
         recyclerView = findViewById(R.id.recyclerTransactions)

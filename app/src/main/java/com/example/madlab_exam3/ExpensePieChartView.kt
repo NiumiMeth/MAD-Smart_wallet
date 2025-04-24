@@ -16,7 +16,7 @@ class ExpensePieChartView(context: Context, attrs: AttributeSet?) : View(context
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val rectF = RectF()
     private val backgroundColor = Color.LTGRAY
-    private var expenseColor = Color.parseColor("#FF4081") // Default expense color
+    private var expenseColor = Color.parseColor("@color/piechart") // Default expense color
     private val overBudgetColor = Color.RED // Color when exceeding 80%
 
     fun setData(budget: Double, spent: Double) {

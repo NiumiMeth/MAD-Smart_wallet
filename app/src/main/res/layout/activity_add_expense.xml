@@ -30,7 +30,7 @@
             android:layout_gravity="center_horizontal"
             android:fontFamily="sans-serif-medium"
             android:text="Add Expenses"
-            android:textColor="@color/textColor"
+            android:textColor="@color/secondaryColor"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -77,7 +77,7 @@
                 android:id="@+id/transactionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/card_background"
+                android:background="#FFFFFF"
                 android:fontFamily="sans-serif-medium"
                 android:inputType="textCapSentences"
                 android:textColor="@color/textColor" />
@@ -99,7 +99,7 @@
                 android:id="@+id/transactionAmount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/card_background"
+                android:background="#FFFFFF"
                 android:fontFamily="sans-serif-medium"
                 android:inputType="numberDecimal"
                 android:textColor="@color/textColor" />
@@ -120,7 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="8dp"
-            android:background="@color/card_background"
+            android:background="@color/white"
             android:fontFamily="sans-serif-medium"
             android:spinnerMode="dropdown"
             android:textColor="@color/textColor" />
@@ -132,8 +132,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:fontFamily="sans-serif-medium"
-            android:text="selected_date"
-            android:textColor="@color/expencessection"
+            android:text="Date"
+            android:textColor="#101010"
             android:textSize="16sp" />
 
 
@@ -141,13 +141,13 @@
             android:id="@+id/buttonDatePicker"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
             android:layout_marginTop="8dp"
             android:background="@color/card_background"
             android:fontFamily="sans-serif-medium"
-            app:backgroundTint="#C5FBC7"
             android:text="Pick a date"
-            android:textColor="@color/textColor" />
+            android:textColor="@color/textColor"
+            app:backgroundTint="#4CAF50" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/saveButton"
@@ -160,7 +160,6 @@
             android:textColor="@color/primaryColor"
             android:textSize="16sp"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-
             app:backgroundTint="@color/card_background" />
 
         <com.google.android.material.button.MaterialButton
@@ -173,9 +172,9 @@
             android:fontFamily="sans-serif-medium"
             android:paddingVertical="14dp"
             android:text="@string/cancel"
-
             android:textSize="16sp"
-            app:strokeColor="@color/white" />
+            android:textColor="@color/cancel"
+            app:backgroundTint="@color/card_background"/>
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

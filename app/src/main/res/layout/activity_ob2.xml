@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.671"
-        app:srcCompat="@drawable/obb1" />
+        app:srcCompat="@drawable/onb" />
 
     <TextView
         android:id="@+id/onboardingTitle"
@@ -50,7 +50,7 @@
         android:gravity="center"
         android:text="Track your transaction easily , with categories and financial report"
         android:textAlignment="center"
-        android:textColor="#3F403F"
+        android:textColor="#6D6D6D"
         android:textSize="23sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +64,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="48dp"
-        android:backgroundTint="#CF9ED7"
+        android:backgroundTint="#F6C3BB"
         android:paddingVertical="12dp"
         android:text="@string/continue_button"
         android:textColor="#161515"
@@ -81,7 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
-        android:backgroundTint="#CF9ED7"
+        android:backgroundTint="#F6C3BB"
         android:text="Skip"
         android:textColor="#141414"
         app:layout_constraintEnd_toEndOf="parent"
