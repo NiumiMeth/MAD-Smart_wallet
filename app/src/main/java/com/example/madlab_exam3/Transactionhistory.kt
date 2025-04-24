@@ -24,7 +24,8 @@ class Transactionhistory : AppCompatActivity() {
     private lateinit var adapter: Transe_history_Adaptor
     private lateinit var categoryFilterSpinner: Spinner
     private lateinit var typeFilterSpinner: Spinner
-    private lateinit var transactionList: MutableList<Transaction>
+    private lateinit var allTransactions: MutableList<Transaction> // Store all loaded transactions
+    private lateinit var filteredTransactions: MutableList<Transaction> // List displayed in RecyclerView
     private lateinit var sharedPreferences: SharedPreferences
     private val gson = Gson()
     private val transactionKey = "expense_transactions"
@@ -38,55 +39,58 @@ class Transactionhistory : AppCompatActivity() {
         categoryFilterSpinner = findViewById(R.id.categoryFilterSpinner)
         typeFilterSpinner = findViewById(R.id.typeFilterSpinner)
 
-        // Initialize the transaction list
-        transactionList = mutableListOf()
+        // Initialize transaction lists
+        allTransactions = mutableListOf()
+        filteredTransactions = mutableListOf()
 
         // Setup the recycler view
         recyclerView.layoutManager = LinearLayoutManager(this)
-
-        // Initialize the adapter with an empty list initially
-        adapter = Transe_history_Adaptor(transactionList, this)
+        adapter = Transe_history_Adaptor(filteredTransactions, this)
         recyclerView.adapter = adapter
 
         sharedPreferences = getSharedPreferences("MyFinanceApp", Context.MODE_PRIVATE)
 
-        // Initialize spinners and load data
-        setupSpinners()
+        // Load transactions from SharedPreferences
         loadTransactions()
 
-        // Check if a new transaction was passed from Add_Expense
-        if (intent != null && intent.hasExtra("new_transaction")) {
-            val newTransaction = intent.getParcelableExtra<Transaction>("new_transaction")
-            newTransaction?.let {
-                transactionList.add(it)  // Add the new transaction to the list
-                adapter.notifyItemInserted(transactionList.size - 1)  // Notify adapter to update the UI
-            }
+        // Setup the spinners
+        setupSpinners()
+
+        // Check for a new transaction passed from Add_Expense
+        intent?.getParcelableExtra<Transaction>("new_transaction")?.let { newTransaction ->
+            allTransactions.add(newTransaction)
+            saveTransactions(allTransactions)
+            applyFilters() // Re-apply filters to include the new transaction
         }
+    }
+
+    private fun loadTransactions() {
+        val json = sharedPreferences.getString(transactionKey, null)
+        val type = object : TypeToken<List<Transaction>>() {}.type
+        val loadedTransactions = gson.fromJson<List<Transaction>>(json, type) ?: emptyList()
+        allTransactions.clear()
+        allTransactions.addAll(loadedTransactions)
+        applyFilters() // Apply initial filters after loading
     }
 
     private fun setupSpinners() {
         // Setup category spinner
-        val categoryAdapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            listOf("All Categories") + getCategories()
-        )
+        val categories = mutableListOf("All Categories")
+        categories.addAll(allTransactions.map { it.category }.distinct())
+        val categoryAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         categoryFilterSpinner.adapter = categoryAdapter
 
         // Setup type spinner
-        val typeAdapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            listOf("All Types", "Income", "Expense")
-        )
+        val types = listOf("All Types", "Income", "Expense")
+        val typeAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, types)
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         typeFilterSpinner.adapter = typeAdapter
 
         // Set listeners to apply filters when the spinner selection changes
         categoryFilterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                filterTransactions()
+                applyFilters()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -94,64 +98,51 @@ class Transactionhistory : AppCompatActivity() {
 
         typeFilterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                filterTransactions()
+                applyFilters()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 
-    private fun getCategories(): List<String> {
-        return transactionList.map { it.category }.distinct()
-    }
-
-    private fun loadTransactions() {
-        val json = sharedPreferences.getString(transactionKey, null)
-        val type = object : TypeToken<List<Transaction>>() {}.type
-        val loadedTransactions = gson.fromJson<List<Transaction>>(json, type) ?: emptyList()
-        transactionList.clear()
-        transactionList.addAll(loadedTransactions)
-        filterTransactions()  // Apply any filters after loading data
-    }
-
-    private fun filterTransactions() {
+    private fun applyFilters() {
         val selectedCategory = categoryFilterSpinner.selectedItem?.toString() ?: "All Categories"
         val selectedType = typeFilterSpinner.selectedItem?.toString() ?: "All Types"
 
-        val filteredList = transactionList.filter { transaction ->
-            (selectedCategory == "All Categories" || transaction.category == selectedCategory) &&
-                    (selectedType == "All Types" || transaction.type == selectedType)
-        }
+        filteredTransactions.clear()
+        filteredTransactions.addAll(allTransactions.filter { transaction ->
+            val categoryMatch = (selectedCategory == "All Categories" || transaction.category == selectedCategory)
+            val typeMatch = (selectedType == "All Types" || transaction.type == selectedType)
+            categoryMatch && typeMatch
+        })
 
-        adapter.updateData(filteredList)  // Update the adapter with filtered data
+        adapter.notifyDataSetChanged() // Notify the adapter that the data has changed
     }
 
-    // Handle editing a transaction (open EditTransactionActivity with the transaction data)
+    // Handle editing a transaction
     fun onEditTransaction(position: Int) {
-        val transaction = transactionList[position]
+        val transaction = filteredTransactions[position] // Use filtered list for editing
         val intent = Intent(this, EditTransactionActivity::class.java)
-        intent.putExtra("transaction_to_edit", transaction)  // Pass the transaction to Edit
-        startActivityForResult(intent, REQUEST_CODE_EDIT_TRANSACTION)  // Use the request code here
+        intent.putExtra("transaction_to_edit", transaction)
+        startActivityForResult(intent, REQUEST_CODE_EDIT_TRANSACTION)
     }
 
     // Handle deleting a transaction
     fun onDeleteTransaction(position: Int) {
-        val transactionToDelete = transactionList[position]
+        val transactionToDelete = filteredTransactions[position] // Use filtered list for deletion
+        val indexInAll = allTransactions.indexOfFirst { it.id == transactionToDelete.id }
 
-        // Remove the transaction from the list
-        transactionList.removeAt(position)
-        adapter.notifyItemRemoved(position)
-
-        // Update the transactions in SharedPreferences
-        saveTransactions(transactionList)
-
-        // Display confirmation
-        Toast.makeText(this, "Transaction deleted", Toast.LENGTH_SHORT).show()
+        if (indexInAll != -1) {
+            allTransactions.removeAt(indexInAll)
+            saveTransactions(allTransactions)
+            applyFilters() // Re-apply filters after deletion
+            Toast.makeText(this, "Transaction deleted", Toast.LENGTH_SHORT).show()
+        }
     }
 
     // Save updated list of transactions to SharedPreferences
-    private fun saveTransactions(Transactions: List<Transaction>) {
-        val json = gson.toJson(Transactions)
+    private fun saveTransactions(transactions: List<Transaction>) {
+        val json = gson.toJson(transactions)
         sharedPreferences.edit().putString(transactionKey, json).apply()
     }
 
@@ -160,15 +151,13 @@ class Transactionhistory : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQUEST_CODE_EDIT_TRANSACTION && resultCode == RESULT_OK) {
-            val updatedTransaction = data?.getParcelableExtra<Transaction>("edited_transaction") // Changed key here
+            val updatedTransaction = data?.getParcelableExtra<Transaction>("edited_transaction")
             updatedTransaction?.let {
-                // Find the index of the edited transaction and update it
-                val position = transactionList.indexOfFirst { it.id == updatedTransaction.id } // Use the ID to find the correct item
-                if (position != -1) {
-                    transactionList[position] = it
-                    adapter.notifyItemChanged(position)
-                    // Save updated transactions in SharedPreferences
-                    saveTransactions(transactionList)
+                val indexInAll = allTransactions.indexOfFirst { transaction -> transaction.id == it.id }
+                if (indexInAll != -1) {
+                    allTransactions[indexInAll] = it
+                    saveTransactions(allTransactions)
+                    applyFilters() // Re-apply filters after updating
                     Toast.makeText(this, "Transaction updated", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, "Error updating transaction", Toast.LENGTH_SHORT).show()

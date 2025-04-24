@@ -5,19 +5,19 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FCF5FD"
     tools:context=".ob2">
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="412dp"
+        android:layout_height="400dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.629"
         app:srcCompat="@drawable/obbb" />
 
     <TextView
@@ -25,15 +25,16 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="144dp"
         android:layout_marginEnd="32dp"
+        android:fontFamily="sans-serif-smallcaps"
         android:gravity="center"
-        android:text="@string/onboarding_title"
-        android:textColor="#434342"
-        android:textSize="28sp"
+        android:text="Planning ahead"
+        android:textColor="#3A3A3A"
+        android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,13 +43,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="48dp"
         android:fontFamily="@font/akaya_kanadaka"
         android:gravity="center"
-        android:text="@string/onboarding_subtitle"
+        android:text="Save all bills and add reminders"
         android:textAlignment="center"
-        android:textColor="#076F38"
+        android:textColor="#414242"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,13 +64,15 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="52dp"
-        android:backgroundTint="#076F38"
+        android:backgroundTint="#FDCF49"
         android:paddingVertical="12dp"
         android:text="@string/continue_button"
+        android:textColor="#181818"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.526"
         app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

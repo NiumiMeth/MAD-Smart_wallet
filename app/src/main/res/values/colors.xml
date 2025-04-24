@@ -8,8 +8,6 @@
     <color name="cardBackgroundColor">#FFFFFF</color>
     <color name="textColor">#000000</color>
     <color name="textSecondaryColor">#757575</color>
-    <color name="expencessection">#181F49</color>
-    <color name="progress_background">#525050</color>
     <color name="progress">#FFEB3B</color>
     <color name="card_background">#F3FFFC</color>
     <color name="cancel">#DB1709</color>
@@ -23,6 +21,8 @@
     <color name="accentColor">#FF5722</color>
     <color name="notification_text">#A61809</color>
     <color name="notification_background">#79F67E</color>
+    <color name="expenseColor">#D32F2F</color> <color name="incomeColor">#388E3C</color> <color name="amountColor">#212121</color> <color name="gradient_start_color">#E0F2F7</color> <color name="gradient_end_color">#B3E5FC</color>   <color name="expencessection">#BBDEFB</color>      <color name="progress_background">#EEEEEE</color>
+
 
 
 </resources>

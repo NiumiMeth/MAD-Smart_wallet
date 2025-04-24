@@ -11,7 +11,9 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -19,16 +21,19 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.madlab_exam3.models.Transaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
 import java.util.Locale
 
 class Home : AppCompatActivity() {
 
     private lateinit var greetingText: TextView
-    private lateinit var sharedPreferences: SharedPreferences
+    lateinit var sharedPreferences: SharedPreferences
     private val gson = Gson()
     private val transactionKey = "expense_transactions"
     private val budgetKey = "monthly_budget"
@@ -37,6 +42,9 @@ class Home : AppCompatActivity() {
     private lateinit var budgetPercentageTextView: TextView
     private lateinit var budgetTextView: TextView
     private lateinit var addBudgetButtonImageView: ImageView
+    private lateinit var history: TextView
+    private lateinit var transactionHistoryRecyclerView: RecyclerView
+    private lateinit var transactionAdapter: TransactionAdapter
 
     private var currentCurrency: String = "LKR"  // Store current currency
 
@@ -49,8 +57,7 @@ class Home : AppCompatActivity() {
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home -> {
-                    startActivity(Intent(this@Home, Home::class.java))
-                    finish()
+                    // No need to restart the activity if already on the home page
                     true
                 }
                 R.id.addExpense -> {
@@ -65,25 +72,27 @@ class Home : AppCompatActivity() {
             }
         }
 
-
-
-    // Initialize SharedPreferences
+        // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("MyFinanceApp", Context.MODE_PRIVATE)
-
-        // Retrieve the currency from SharedPreferences
-        currentCurrency = sharedPreferences.getString("currency", "LKR") ?: "LKR"
 
         // Initialize Views
         greetingText = findViewById(R.id.greetingText)
         notificationTextView = findViewById(R.id.notificationTextView)
         budgetProgressBar = findViewById(R.id.budgetProgressBar)
         budgetPercentageTextView = findViewById(R.id.budgetPercentageText)
+        history = findViewById(R.id.budgetLabel)
         budgetTextView = findViewById(R.id.budgetText)
         addBudgetButtonImageView = findViewById(R.id.addBudgetButton)
         val categoriesTitleTextView = findViewById<TextView>(R.id.categoriesTitle)
+        transactionHistoryRecyclerView = findViewById(R.id.transactionHistoryRecyclerView)
+        transactionHistoryRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Load and display budget information
-        loadBudgetInfo()
+        // Initialize the adapter with an empty list initially
+        transactionAdapter = TransactionAdapter(emptyList())
+        transactionHistoryRecyclerView.adapter = transactionAdapter
+
+        // Load and display initial data
+        loadHomePageData()
 
         // Navigation Listeners
         categoriesTitleTextView.setOnClickListener {
@@ -95,6 +104,35 @@ class Home : AppCompatActivity() {
             val intent = Intent(this@Home, set_budget::class.java)
             startActivity(intent)
         }
+
+        history.setOnClickListener {
+            val intent = Intent(this@Home, Transactionhistory::class.java)
+            startActivity(intent)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Reload data every time the activity comes to the foreground
+        loadHomePageData()
+    }
+
+    private fun loadHomePageData() {
+        // Load recent transactions
+        val recentTransactions = loadRecentTransactions()
+        transactionAdapter.updateData(recentTransactions)
+
+        // Load budget information
+        loadBudgetInfo()
+    }
+
+    private fun loadRecentTransactions(): List<Transaction> {
+        val transactionsJson = sharedPreferences.getString(transactionKey, null)
+        val type: Type = object : TypeToken<List<Transaction>>() {}.type
+        val allTransactions: List<Transaction> = gson.fromJson(transactionsJson, type) ?: emptyList()
+
+        // Get the most recent transactions (e.g., the last 5)
+        return allTransactions.takeLast(5).reversed()
     }
 
     private fun loadBudgetInfo() {
@@ -180,6 +218,65 @@ class Home : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-//        unregisterReceiver(budgetWarningReceiver) // Unregister receiver if you keep using it
+        //        unregisterReceiver(budgetWarningReceiver) // Unregister receiver if you keep using it
+    }
+}
+
+// Adapter for displaying transactions in the RecyclerView
+class TransactionAdapter(private var transactions: List<Transaction>) :
+    RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
+
+    class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val titleTextView: TextView = itemView.findViewById(R.id.txtTitle)
+        val categoryTextView: TextView = itemView.findViewById(R.id.txtCategory)
+        val dateTextView: TextView = itemView.findViewById(R.id.txtDate)
+        val amountTextView: TextView = itemView.findViewById(R.id.txtAmount)
+        val transactionTypeTextView: TextView = itemView.findViewById(R.id.txtTransactionType)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.transaction_item, parent, false)
+        return TransactionViewHolder(itemView)
+    }
+
+    override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
+        val currentTransaction = transactions[position]
+        holder.titleTextView.text = currentTransaction.title
+        holder.categoryTextView.text = currentTransaction.category
+        holder.dateTextView.text = currentTransaction.date
+        holder.amountTextView.text = String.format(
+            Locale.getDefault(),
+            "%s %.2f",
+            (holder.itemView.context as Home).currentCurrencySymbol(),
+            currentTransaction.amount
+        )
+        holder.transactionTypeTextView.text = currentTransaction.type
+        if (currentTransaction.type == "Expense") {
+            holder.amountTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.expenseColor))
+            holder.transactionTypeTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.expenseColor))
+        } else {
+            holder.amountTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.incomeColor))
+            holder.transactionTypeTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.incomeColor))
+        }
+    }
+
+    override fun getItemCount() = transactions.size
+
+    fun updateData(newTransactions: List<Transaction>) {
+        transactions = newTransactions
+        notifyDataSetChanged()
+    }
+}
+
+// Extension function to get the currency symbol based on the stored currency code
+fun Home.currentCurrencySymbol(): String {
+    return when (sharedPreferences.getString("currency", "LKR")) {
+        "USD" -> "$"
+        "EUR" -> "€"
+        "GBP" -> "£"
+        "JPY" -> "¥"
+        "LKR" -> "LKR"
+        else -> "$" // Default to USD
     }
 }

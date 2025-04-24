@@ -217,15 +217,15 @@ class set_budget : AppCompatActivity() {
         remainingBudgetText.text = "Remaining: $currencySymbol${"%.2f".format(budget - totalSpent)}"
 
         if (progressPercent >= 80) {
-            budgetWarningTextView.text = "Warning: You have used 80% or more of your budget!"
+            budgetWarningTextView.text = getString(R.string.budget_warning_message)
             budgetWarningTextView.visibility = View.VISIBLE
             circularProgressBar.setIndicatorColor(ContextCompat.getColor(this, android.R.color.holo_red_dark))
-            progressPercentageText.setTextColor(ContextCompat.getColor(this, R.color.transportation_color))
+            progressPercentageText.setTextColor(ContextCompat.getColor(this, R.color.cancel))
         } else {
             budgetWarningTextView.text = ""
             budgetWarningTextView.visibility = View.GONE
-            circularProgressBar.setIndicatorColor(ContextCompat.getColor(this, R.color.piechart))
-            progressPercentageText.setTextColor(ContextCompat.getColor(this, R.color.transportation_color))
+            circularProgressBar.setIndicatorColor(ContextCompat.getColor(this, R.color.primaryColor))
+            progressPercentageText.setTextColor(ContextCompat.getColor(this, R.color.primaryColor))
         }
 // Update the progress bar
         progressPercentageText.text = "$progressPercent%"
@@ -256,12 +256,50 @@ class set_budget : AppCompatActivity() {
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel("budget_warning_channel", "Budget Warnings", NotificationManager.IMPORTANCE_HIGH)
+            val channel = NotificationChannel("budget_warning_channel", getString(R.string.budget_warning_channel_name), NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(channel)
         }
 
-        notificationManager.notify(0, notificationBuilder.build()) // Unique notification ID
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            notificationManager.notify(0, notificationBuilder.build()) // Unique notification ID
+        } else {
+            // Request permission if not granted (for Android 13 and above)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            } else {
+                // For older versions, you might want to inform the user that notifications are disabled.
+                Toast.makeText(this, getString(R.string.notification_permission_denied), Toast.LENGTH_SHORT).show()
+            }
+        }
     }
+
+    private val requestNotificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                // Notification permission granted, you can now show the notification
+                val budget = sharedPreferences.getFloat(budgetKey, 0f).toDouble()
+                if (budget > 0) {
+                    val totalSpent = calculateTotalSpent()
+                    val remaining = budget - totalSpent
+                    val progressPercent = ((totalSpent / budget) * 100).toInt().coerceIn(0, 100)
+                    if (progressPercent >= 80) {
+                        val notificationTitle = getString(R.string.budget_warning_title)
+                        val notificationMessage = String.format(
+                            Locale.getDefault(),
+                            getString(R.string.budget_warning_details),
+                            budget,
+                            totalSpent,
+                            remaining
+                        )
+                        showBudgetWarningNotification(notificationTitle, notificationMessage)
+                    }
+                }
+            } else {
+                // Explain to the user that the notification was not shown because the
+                // permission is not granted.
+                Toast.makeText(this, getString(R.string.notification_permission_explanation), Toast.LENGTH_SHORT).show()
+            }
+        }
 
     // Helper function to calculate total expenses from stored transactions
     private fun calculateTotalSpent(): Double {

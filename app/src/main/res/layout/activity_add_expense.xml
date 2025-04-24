@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:fontFamily="sans-serif-medium"
-            android:text="Add Transaction"
+            android:text="Add Expenses"
             android:textColor="@color/textColor"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -48,7 +48,7 @@
                 android:layout_weight="1"
                 android:checked="true"
                 android:fontFamily="sans-serif-medium"
-                android:text="Income"
+                android:text="@string/income"
                 android:textColor="@color/textColor" />
 
             <RadioButton
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:text="Expense"
+                android:text="@string/expense"
                 android:textColor="@color/textColor" />
         </RadioGroup>
 
@@ -67,10 +67,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Title"
+            android:hint="Discription"
             android:textColorHint="@color/textColor"
             app:boxStrokeColor="@color/textColor"
-            app:hintTextColor="@color/textColor">
+            app:hintTextColor="@color/textColor"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/transactionTitle"
@@ -91,7 +92,8 @@
             android:hint="Amount"
             android:textColorHint="@color/textColor"
             app:boxStrokeColor="@color/textColor"
-            app:hintTextColor="@color/textColor">
+            app:hintTextColor="@color/textColor"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/transactionAmount"
@@ -130,34 +132,35 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:fontFamily="sans-serif-medium"
-            android:text="Selected Date"
+            android:text="selected_date"
             android:textColor="@color/expencessection"
             android:textSize="16sp" />
 
 
         <Button
             android:id="@+id/buttonDatePicker"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:background="@color/card_background"
             android:fontFamily="sans-serif-medium"
-
-            android:text="Pick Date"
+            app:backgroundTint="#C5FBC7"
+            android:text="Pick a date"
             android:textColor="@color/textColor" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/saveButton"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:fontFamily="sans-serif-medium"
             android:paddingVertical="14dp"
             android:text="Save Transaction"
-            android:textColor="#009688"
+            android:textColor="@color/primaryColor"
             android:textSize="16sp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+
             app:backgroundTint="@color/card_background" />
 
         <com.google.android.material.button.MaterialButton
@@ -169,10 +172,10 @@
             android:backgroundTint="@color/card_background"
             android:fontFamily="sans-serif-medium"
             android:paddingVertical="14dp"
-            android:text="Cancel"
-            android:textColor="@color/cancel"
+            android:text="@string/cancel"
+
             android:textSize="16sp"
-            app:strokeColor="#FFFFFF" />
+            app:strokeColor="@color/white" />
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

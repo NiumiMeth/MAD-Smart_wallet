@@ -10,6 +10,8 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.madlab_exam3.models.Transaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.*
@@ -18,13 +20,15 @@ class Add_Expense : AppCompatActivity() {
 
     private lateinit var dateTextView: TextView
     private lateinit var datePickerButton: Button
-    private lateinit var titleEditText: EditText
-    private lateinit var amountEditText: EditText
+    private lateinit var titleEditText: TextInputEditText
+    private lateinit var amountEditText: TextInputEditText
     private lateinit var categorySpinner: Spinner
     private lateinit var saveButton: Button
     private lateinit var cancelButton: Button
     private lateinit var transactionTypeRadioGroup: RadioGroup // RadioGroup for selecting Income/Expense
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var titleInputLayout: TextInputLayout
+    private lateinit var amountInputLayout: TextInputLayout
 
     private val gson = Gson()
     private val transactionKey = "expense_transactions"
@@ -48,6 +52,8 @@ class Add_Expense : AppCompatActivity() {
         saveButton = findViewById(R.id.saveButton)
         cancelButton = findViewById(R.id.cancelButton)
         transactionTypeRadioGroup = findViewById(R.id.transactionTypeRadioGroup) // Initialize RadioGroup
+        titleInputLayout = findViewById(R.id.titleInputLayout)
+        amountInputLayout = findViewById(R.id.amountInputLayout)
 
         sharedPreferences = getSharedPreferences("MyFinanceApp", Context.MODE_PRIVATE)
 
@@ -146,22 +152,48 @@ class Add_Expense : AppCompatActivity() {
         // Get selected transaction type from RadioGroup (Income or Expense)
         val selectedTransactionType = findViewById<RadioButton>(transactionTypeRadioGroup.checkedRadioButtonId).text.toString()
 
-        if (title.isEmpty() || amountStr.isEmpty() || category.isEmpty() || date.isEmpty()) {
-            Toast.makeText(this, "Please fill all fields with valid data", Toast.LENGTH_SHORT).show()
-            return
+        var isValid = true
+
+        if (title.isEmpty()) {
+            titleInputLayout.error = getString(R.string.error_empty_title)
+            isValid = false
+        } else {
+            titleInputLayout.error = null
         }
 
-        try {
-            val amount = amountStr.toDouble()
-            if (amount <= 0) {
-                Toast.makeText(this, "Amount must be greater than 0", Toast.LENGTH_SHORT).show()
-                return
+        if (amountStr.isEmpty()) {
+            amountInputLayout.error = getString(R.string.error_empty_amount)
+            isValid = false
+        } else {
+            try {
+                val amount = amountStr.toDouble()
+                if (amount <= 0) {
+                    amountInputLayout.error = getString(R.string.error_invalid_amount)
+                    isValid = false
+                } else {
+                    amountInputLayout.error = null
+                }
+            } catch (e: NumberFormatException) {
+                amountInputLayout.error = getString(R.string.error_invalid_amount)
+                isValid = false
             }
+        }
 
+        if (category.isEmpty()) {
+            Toast.makeText(this, "Please select a category", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (date.isEmpty() || date == getString(R.string.selected_date)) {
+            Toast.makeText(this, "Please select a date", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (isValid) {
             // Create a new transaction with the selected type (Expense or Income)
             val newTransaction = Transaction(
                 title = title,
-                amount = amount,
+                amount = amountStr.toDouble(),
                 category = category,
                 date = date,
                 type = selectedTransactionType // Set the transaction type (Expense or Income)
@@ -169,7 +201,7 @@ class Add_Expense : AppCompatActivity() {
 
             // Update totalSpent only if the transaction type is Expense
             if (selectedTransactionType == "Expense") {
-                totalSpent += amount
+                totalSpent += newTransaction.amount
                 saveBudget() // Save the updated totalSpent to SharedPreferences
             }
 
@@ -177,7 +209,7 @@ class Add_Expense : AppCompatActivity() {
             saveNewTransaction(newTransaction)
 
             // Show a toast and go back
-            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.saved), Toast.LENGTH_SHORT).show()
 
             // Send the new transaction back to TransactionHistory
             val intent = Intent()
@@ -187,8 +219,8 @@ class Add_Expense : AppCompatActivity() {
             // Finish the activity to avoid double saves
             finish()
 
-        } catch (e: NumberFormatException) {
-            Toast.makeText(this, "Invalid amount", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, getString(R.string.validation_failed), Toast.LENGTH_SHORT).show()
         }
     }
 
