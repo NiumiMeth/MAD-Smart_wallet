@@ -15,10 +15,15 @@ class ob2 : AppCompatActivity() {
         setContentView(R.layout.activity_ob2)
 
         val ob3button = findViewById<Button>(R.id.continueButton)
-//        val homebutton = findViewById<Button>(R.id.button3)
+     val homebutton = findViewById<Button>(R.id.button)
 
         ob3button.setOnClickListener {
             val intent = Intent(this@ob2, ob3::class.java)
+            startActivity(intent)
+        }
+
+        homebutton.setOnClickListener {
+            val intent = Intent(this@ob2, Home::class.java)
             startActivity(intent)
         }
 
