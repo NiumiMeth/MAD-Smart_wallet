@@ -294,5 +294,8 @@
     <string name="error_invalid_amount">Enter a valid amount</string>
     <string name="selected_date">Selected Date</string>
     <string name="validation_failed">Please fill all fields with valid data</string>
+
+    <string name="budget_cannot_be_empty">Budget cannot be empty</string>
+    <string name="enter_valid_amount">Enter a valid amount</string>
 </resources>
 
